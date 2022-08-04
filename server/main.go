@@ -48,29 +48,19 @@ func (Server) Greeting(ctx context.Context, req *greeting.GreetingRequest) (*gre
 }
 
 func greetingManager(ctx context.Context, name string) (string, error) {
-	result := make(chan string)
-	go greetingMessage(ctx, name, result)
-	for {
-		select {
-		case <-ctx.Done():
-			return "", errors.New("context cancel")
-		case r := <-result:
-			return r, nil
-		}
-	}
+	return greetingMessage(ctx, name)
 }
 
-func greetingMessage(ctx context.Context, name string, result chan string) {
-	ticker := time.NewTicker(10 * time.Second)
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case <-ticker.C:
-			log.Println("request for do greeting by " + name)
-			result <- fmt.Sprintf("hello %s", name)
-		}
+func greetingMessage(ctx context.Context, name string) (string, error) {
+	time.Sleep(10 * time.Second)
+	select {
+	case <-ctx.Done():
+		return "", errors.New("context cancel")
+	default:
 	}
+
+	fmt.Println("request for do greeting by " + name)
+	return fmt.Sprintf("hello %s", name), nil
 }
 
 func main() {

@@ -34,7 +34,7 @@ func GetClient() greeting.ContextServiceClient {
 func main() {
 	ConnectGreetingClient()
 	ctx, cancel := context.WithCancel(context.Background())
-	time.AfterFunc(3*time.Second, func() {
+	time.AfterFunc(9*time.Second, func() {
 		fmt.Println("do cancel")
 		cancel()
 	})
