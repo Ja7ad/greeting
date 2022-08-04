@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./greeting";
+
+service ContextService {
+  rpc Greeting(GreetingRequest) returns(GreetingResponse) {}
+}
+
+message GreetingRequest {
+  string name = 1;
+}
+
+message GreetingResponse {
+  string message = 1;
+}
